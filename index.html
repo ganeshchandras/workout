@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Workout Tracker</h1>
+        
+        <div id="routine">
+            <h2>Workout Routines</h2>
+            <select id="routine-select">
+                <option value="">Select Routine</option>
+                <option value="upper-body">Upper Body</option>
+                <option value="lower-body">Lower Body</option>
+                <option value="cardio-core">Cardio & Core</option>
+                <option value="full-body">Full Body</option>
+            </select>
+        </div>
+        
+        <div id="exercise-list">
+            <h2>Exercises</h2>
+            <!-- Exercises will be loaded here based on selected routine -->
+        </div>
+        
+        <div id="tracker">
+            <h2>Track Weights</h2>
+            <form id="weight-form">
+                <label for="exercise">Exercise:</label>
+                <select id="exercise-select">
+                    <!-- Exercise options will be populated here -->
+                </select>
+                
+                <label for="weight">Weight (lbs):</label>
+                <input type="number" id="weight" required>
+                
+                <label for="sets">Sets:</label>
+                <input type="number" id="sets" required>
+                
+                <label for="reps">Reps:</label>
+                <input type="number" id="reps" required>
+                
+                <button type="submit">Add Record</button>
+            </form>
+        </div>
+        
+        <div id="progress">
+            <h2>Progress Tracker</h2>
+            <!-- Progress will be displayed here -->
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
