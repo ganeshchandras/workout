@@ -34,7 +34,7 @@ const routines = {
     ]
 };
 
-// Update routine display based on the current day
+// Function to update daily routine based on the day of the week
 function updateDailyRoutine() {
     const today = new Date();
     const dayOfWeek = today.getDay();
@@ -63,7 +63,7 @@ document.getElementById('routine-select').addEventListener('change', function ()
     }
 });
 
-// Handle adding sets
+// Add new set input fields
 document.getElementById('add-set').addEventListener('click', function () {
     const container = document.getElementById('sets-container');
     const setDiv = document.createElement('div');
@@ -78,7 +78,7 @@ document.getElementById('add-set').addEventListener('click', function () {
     container.appendChild(setDiv);
 });
 
-// Handle removing sets
+// Remove set input fields
 document.getElementById('sets-container').addEventListener('click', function (event) {
     if (event.target.classList.contains('remove-set')) {
         event.target.parentElement.remove();
