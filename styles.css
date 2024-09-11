@@ -46,3 +46,20 @@ button {
 button:hover {
     background-color: #218838;
 }
+
+#sets-container {
+    margin: 10px 0;
+}
+
+.set-input {
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+/* Style for delete record section */
+#delete-record {
+    margin-top: 20px;
+}
