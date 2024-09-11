@@ -34,6 +34,16 @@ const routines = {
     ]
 };
 
+// Update routine display based on the current day
+function updateDailyRoutine() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const routinesList = ['upper-body', 'lower-body', 'cardio-core', 'full-body'];
+    const routine = routinesList[dayOfWeek % routinesList.length];
+    const routineDisplay = document.getElementById('routine-display');
+    routineDisplay.textContent = `Today's Routine: ${routine.replace('-', ' ')}`;
+}
+
 // Load exercises based on selected routine
 document.getElementById('routine-select').addEventListener('change', function () {
     const routine = this.value;
@@ -53,20 +63,45 @@ document.getElementById('routine-select').addEventListener('change', function ()
     }
 });
 
+// Handle adding sets
+document.getElementById('add-set').addEventListener('click', function () {
+    const container = document.getElementById('sets-container');
+    const setDiv = document.createElement('div');
+    setDiv.classList.add('set-input');
+    setDiv.innerHTML = `
+        <label>Weight (lbs):</label>
+        <input type="number" class="weight" required>
+        <label>Reps:</label>
+        <input type="number" class="reps" required>
+        <button type="button" class="remove-set">Remove</button>
+    `;
+    container.appendChild(setDiv);
+});
+
+// Handle removing sets
+document.getElementById('sets-container').addEventListener('click', function (event) {
+    if (event.target.classList.contains('remove-set')) {
+        event.target.parentElement.remove();
+    }
+});
+
 // Handle weight tracking form submission
 document.getElementById('weight-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const exercise = document.getElementById('exercise-select').value;
-    const weight = document.getElementById('weight').value;
-    const sets = document.getElementById('sets').value;
-    const reps = document.getElementById('reps').value;
+    const day = document.getElementById('day').value;
+    const setsElements = document.querySelectorAll('.set-input');
 
-    const progressTracker = document.getElementById('progress');
-    
-    if (exercise && weight && sets && reps) {
+    if (exercise && day) {
+        // Collect all sets data
+        const sets = Array.from(setsElements).map(set => ({
+            weight: set.querySelector('.weight').value,
+            reps: set.querySelector('.reps').value
+        }));
+
         // Save to local storage
-        const record = { exercise, weight, sets, reps };
+        const record = { exercise, day, sets };
         let records = JSON.parse(localStorage.getItem('workoutRecords')) || [];
         records.push(record);
         localStorage.setItem('workoutRecords', JSON.stringify(records));
@@ -74,21 +109,50 @@ document.getElementById('weight-form').addEventListener('submit', function (even
         // Display progress
         let progressHtml = '<h2>Progress Tracker</h2>';
         records.forEach(record => {
-            progressHtml += `<p>Exercise: ${record.exercise} - Weight: ${record.weight} lbs, Sets: ${record.sets}, Reps: ${record.reps}</p>`;
+            progressHtml += `<h3>Exercise: ${record.exercise} on ${record.day}</h3>`;
+            record.sets.forEach((set, index) => {
+                progressHtml += `<p>Set ${index + 1}: Weight: ${set.weight} lbs, Reps: ${set.reps}</p>`;
+            });
         });
-        progressTracker.innerHTML = progressHtml;
+        document.getElementById('progress').innerHTML = progressHtml;
     } else {
         alert('Please fill in all fields.');
     }
 });
 
+// Handle deleting records
+document.getElementById('delete-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const day = document.getElementById('delete-day').value;
+
+    let records = JSON.parse(localStorage.getItem('workoutRecords')) || [];
+    records = records.filter(record => record.day !== day);
+    localStorage.setItem('workoutRecords', JSON.stringify(records));
+
+    // Update progress display
+    let progressHtml = '<h2>Progress Tracker</h2>';
+    records.forEach(record => {
+        progressHtml += `<h3>Exercise: ${record.exercise} on ${record.day}</h3>`;
+        record.sets.forEach((set, index) => {
+            progressHtml += `<p>Set ${index + 1}: Weight: ${set.weight} lbs, Reps: ${set.reps}</p>`;
+        });
+    });
+    document.getElementById('progress').innerHTML = progressHtml;
+});
+
 // Load progress on page load
 window.addEventListener('load', function () {
+    updateDailyRoutine();
+
     const progressTracker = document.getElementById('progress');
     let records = JSON.parse(localStorage.getItem('workoutRecords')) || [];
     let progressHtml = '<h2>Progress Tracker</h2>';
     records.forEach(record => {
-        progressHtml += `<p>Exercise: ${record.exercise} - Weight: ${record.weight} lbs, Sets: ${record.sets}, Reps: ${record.reps}</p>`;
+        progressHtml += `<h3>Exercise: ${record.exercise} on ${record.day}</h3>`;
+        record.sets.forEach((set, index) => {
+            progressHtml += `<p>Set ${index + 1}: Weight: ${set.weight} lbs, Reps: ${set.reps}</p>`;
+        });
     });
     progressTracker.innerHTML = progressHtml;
 });
