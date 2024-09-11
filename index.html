@@ -10,8 +10,15 @@
     <div class="container">
         <h1>Workout Tracker</h1>
         
+        <!-- Display Workout Routine for Today -->
+        <div id="daily-routine">
+            <h2>Today's Routine</h2>
+            <p id="routine-display">Select a day to see today's routine.</p>
+        </div>
+
+        <!-- Routine Selection -->
         <div id="routine">
-            <h2>Workout Routines</h2>
+            <h2>Select Routine</h2>
             <select id="routine-select">
                 <option value="">Select Routine</option>
                 <option value="upper-body">Upper Body</option>
@@ -21,35 +28,48 @@
             </select>
         </div>
         
+        <!-- Exercise List -->
         <div id="exercise-list">
             <h2>Exercises</h2>
             <!-- Exercises will be loaded here based on selected routine -->
         </div>
         
+        <!-- Add Record -->
         <div id="tracker">
-            <h2>Track Weights</h2>
+            <h2>Add Record</h2>
             <form id="weight-form">
                 <label for="exercise">Exercise:</label>
                 <select id="exercise-select">
                     <!-- Exercise options will be populated here -->
                 </select>
                 
-                <label for="weight">Weight (lbs):</label>
-                <input type="number" id="weight" required>
+                <label for="day">Day:</label>
+                <input type="date" id="day" required>
                 
                 <label for="sets">Sets:</label>
-                <input type="number" id="sets" required>
+                <div id="sets-container">
+                    <!-- Set inputs will be added dynamically -->
+                </div>
                 
-                <label for="reps">Reps:</label>
-                <input type="number" id="reps" required>
-                
+                <button type="button" id="add-set">Add Set</button>
                 <button type="submit">Add Record</button>
             </form>
         </div>
         
+        <!-- Progress Tracker -->
         <div id="progress">
             <h2>Progress Tracker</h2>
             <!-- Progress will be displayed here -->
+        </div>
+        
+        <!-- Delete Record -->
+        <div id="delete-record">
+            <h2>Delete Record</h2>
+            <form id="delete-form">
+                <label for="delete-day">Select Day to Delete Record:</label>
+                <input type="date" id="delete-day" required>
+                <button type="submit">Delete Record</button>
+            </form>
         </div>
     </div>
     
